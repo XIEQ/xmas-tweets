@@ -7,7 +7,7 @@ import org.apache.spark.sql.functions.udf
 
 import com.databricks.spark.corenlp.functions._
 
-object TweetSentiment {
+object TweetSentimentJSON {
   
   val map = Utils.setupS3()
   
@@ -37,11 +37,11 @@ object TweetSentiment {
    
     val tweets=spark.read.json(map("readPath"))
       .select("text","user","geolocation","place","lang").where("lang == 'en'").where("geolocation != null")
-//      .select(col("text"),col("user"),col("geolocation"),col("place"),explode(ssplit(removeUrlUDF(col("text")))) as "sentences",col("lang"))
-//      .select(col("text"),col("user"),col("geolocation"),col("place"),col("sentences"),col("lang"),sentiment(col("sentences")) as "sentiment",tokenize(col("sentences")) as "words",pos(col("sentences")) as "pos",lemma(col("sentences")) as "lemmas",ner(col("sentences")) as "nerTags")
+      .select(col("text"),col("user"),col("geolocation"),col("place"),explode(ssplit(removeUrlUDF(col("text")))) as "sentences",col("lang"))
+      .select(col("text"),col("user"),col("geolocation"),col("place"),col("sentences"),col("lang"),sentiment(col("sentences")) as "sentiment",tokenize(col("sentences")) as "words",pos(col("sentences")) as "pos",lemma(col("sentences")) as "lemmas",ner(col("sentences")) as "nerTags")
       
     
-    tweets.show(1)
+    tweets.write.json(map("writePath"))
 
   }
 }
