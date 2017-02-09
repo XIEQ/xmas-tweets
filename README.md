@@ -1,1 +1,1 @@
-# xmas-tweets
+## You can find more info on my blog [bigdata.fyi](https://bigdata.fyi/christmas-tweets-sentiment-analysis-with-spark-on-elasticsearch-and-kibana/)
